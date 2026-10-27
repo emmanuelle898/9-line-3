@@ -1,3 +1,13 @@
 spring:
   application:
     name: 9-line-pairing-project
+
+    datasource:
+      url: jdbc:postgresql://localhost:5436/todo
+      driver-class-name: org.postgresql.Driver
+      username: devuser
+      password: devpass
+
+
+server:
+  port: 8080
