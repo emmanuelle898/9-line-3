@@ -37,3 +37,16 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+// Fix Java Mockito Message
+tasks.withType(Test).configureEach
+        {
+            jvmArgs "-javaagent:${configurations.mockitoAgent.singleFile}"
+        }
+tasks.register('showRepositories')
+        {
+            repositories.each
+                    {
+                        println "repository: ${it.name} ('${it.url}')"
+
+                    }
+        }
