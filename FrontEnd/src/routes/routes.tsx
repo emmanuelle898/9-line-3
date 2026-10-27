@@ -7,13 +7,13 @@ export default function AppRoutes() {
     return (
 
         <Routes>
-            <Route path="/" element={<RequesterPage/>}
-            />
-            <Route path="/tasks" element={<ResponderPage/>}
-            />
-            <Route path="/categories" element={<DispacherPage/>}
-            />
 
+            <Route path="/ResponderPage" element={<ResponderPage/>}
+            />
+            <Route path="/DispacherPage" element={<DispacherPage/>}
+            />
+            <Route path="/DispacherPage" element={<RequesterPage/>}
+            />
         </Routes>
     );
 }
