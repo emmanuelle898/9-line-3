@@ -1,11 +1,6 @@
-import dispatch_sample_data from "../assets/sample_data/dispatch_sample_data";
-
-
-
-
+import dispatch_sample_data from "../../assets/sample_data/dispatch_sample_data";
 
 const Dispatch_table = () => {
-
 
     return (
         <>
@@ -20,6 +15,7 @@ const Dispatch_table = () => {
                 <tbody>
                 <tr>
                     <td>{dispatch_sample_data[0].location}</td>
+                    <td>{dispatch_sample_data[0].id}</td>
                 </tr>
                 <tr>
                     <td>Witchy Woman</td>

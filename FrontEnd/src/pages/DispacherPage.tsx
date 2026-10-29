@@ -1,4 +1,4 @@
-import Dispatch_table from "../components/Dispatch_table";
+import Dispatch_table from "../components/dispatch/Dispatch_table";
 
 export function DispacherPage(){
     return(
