@@ -14,6 +14,9 @@ export function RequesterPage(){
     const handleSubmit = (event) => {
         event.preventDefault();
         alert(`Form submitted successfully ${formData.location}`);
+
+        //send it to API...
+
     }
 
     return(

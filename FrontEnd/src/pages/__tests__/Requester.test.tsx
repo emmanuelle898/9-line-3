@@ -26,7 +26,7 @@ describe('RequesterPageTest', () => {
         const input = screen.getByRole("textbox", {name: /Location/i});
         await userEvent.type(input, myLocation);
 
-        const submit = screen.getByRole("button", {name: /Submit/i})
+        const submit = screen.getByRole("submit", {name: /Submit/i})
         await userEvent.click(submit);
 
         const alertElement = screen.getByRole('alert');
