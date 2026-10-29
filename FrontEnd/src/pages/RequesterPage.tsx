@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {saveNineLine} from "@/NineLineAPI";
 
 
 export function RequesterPage(){
@@ -11,13 +12,19 @@ export function RequesterPage(){
             [name]: value,
         }));
     };
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        alert(`Form submitted successfully ${formData.location}`);
 
-        //send it to API...
+        try {
+            const response = await saveNineLine(formData);
+            console.log("API response:", response);
 
-    }
+            alert(`Form submitted successfully ${formData.location}`);
+        } catch (error) {
+            console.error("Failed to save Nine Line:", error);
+            alert("Failed to submit the form.");
+        }
+    };
 
     return(
 
