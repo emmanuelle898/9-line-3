@@ -1,8 +1,6 @@
-package mil.army.moda._linepairingproject;
+package mil.army.moda._linepairingproject.nineLine;
 
 import lombok.AllArgsConstructor;
-import mil.army.moda._linepairingproject.nineLine.NineLine;
-import mil.army.moda._linepairingproject.nineLine.NineLineRepository;
 import org.springframework.stereotype.Service;
 
 
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class NineLineService {
     private final NineLineRepository nineLineRepository;
 
-    public createNineLine(NineLine nineLine){
+    public NineLine createNineLine(NineLine nineLine){
         return nineLineRepository.save(nineLine);
     }
 }

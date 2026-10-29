@@ -1,4 +1,10 @@
 package mil.army.moda._linepairingproject.nineLine;
 
-public class NineLineRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface NineLineRepository extends JpaRepository<NineLine, Long>  {
+
+
 }

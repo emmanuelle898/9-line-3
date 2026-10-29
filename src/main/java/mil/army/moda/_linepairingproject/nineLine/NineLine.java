@@ -20,4 +20,8 @@ public class NineLine {
 
     private String location;
 
+    public NineLine (String location){
+        this.location = location;
+    }
+
 }
