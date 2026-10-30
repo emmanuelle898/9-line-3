@@ -12,7 +12,7 @@ export default function AppRoutes() {
             />
             <Route path="/DispacherPage" element={<DispacherPage/>}
             />
-            <Route path="/DispacherPage" element={<RequesterPage/>}
+            <Route path="/RequesterPage" element={<RequesterPage/>}
             />
         </Routes>
     );
