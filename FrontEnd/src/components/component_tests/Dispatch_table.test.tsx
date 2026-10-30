@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import Dispatch_table from "../dispatch/Dispatch_table";
 import {render, screen} from "@testing-library/react";
-import dispatch_error from "../dispatch/dispatch_error";
+import dispatch_error from "../dispatch/Dispatch_error";
 
 describe("Dispatch_table", () => {
     it("Should render Dispatch_table", () => {

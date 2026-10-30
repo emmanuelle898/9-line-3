@@ -1,11 +1,11 @@
 import { useState } from "react";
-import dispatch_table from "../dispatch/Dispatch_table";
+import Dispatch_table from "../dispatch/Dispatch_table";
 
 export default function useDispatchError() {
     const [error, setError] = useState<string | null>(null);
 
-    const dispatchError = async (type: string): Promise<void> => {
-        if (!dispatch_table) {
+    const DispatchError = async (type: string): Promise<void> => {
+        if (!Dispatch_table) {
             setError("Missing Critical Information");
             return;
         }
@@ -13,5 +13,5 @@ export default function useDispatchError() {
         // Add your additional dispatch logic here using the 'type' parameter
     };
 
-    return { error, dispatchError };
+    return { error, DispatchError };
 }
