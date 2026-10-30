@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {saveNineLine} from "@/NineLineAPI";
+import {saveNineLine} from "../NineLineAPI";
 
 
 export function RequesterPage(){
@@ -9,14 +9,14 @@ export function RequesterPage(){
         radioFrequency: "",
     });
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    const handleChange = (event:any) => {
+        const { name, value } = event;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
 
         try {
