@@ -23,10 +23,13 @@ public class NineLine {
     private String callSign;
     @Column
     private String location;
+    @Column
+    private Integer patientNumber;
 
-    public NineLine (String location, String callSign) {
+    public NineLine (String location, String callSign, Integer patientNumber) {
         this.location = location;
         this.callSign = callSign;
+        this.patientNumber = patientNumber;
     }
 
 }

@@ -33,11 +33,11 @@ class NineLineServiceTest {
 
         nineLines = new ArrayList<>();
 
-        newNineLine = new NineLine("your house", "1234");
+        newNineLine = new NineLine("your house", "1234",1);
         newNineLine.setId(1L);
-        secondNineLine = new NineLine("my house", "1234");
+        secondNineLine = new NineLine("my house", "1234",2);
         secondNineLine.setId(2L);
-        thirdNineLine = new NineLine("their house", "1234");
+        thirdNineLine = new NineLine("their house", "1234",3);
         thirdNineLine.setId(3L);
         nineLines.add(newNineLine);
         nineLines.add(secondNineLine);
@@ -57,6 +57,7 @@ class NineLineServiceTest {
         assertThat(result.getId()).isEqualTo(1L);
         assertThat(result.getLocation()).isEqualTo("your house");
         assertThat(result.getCallSign()).isEqualTo("1234");
+        assertThat(result.getPatientNumber()).isEqualTo(1);
         verify(nineLineRepository, only()).save(newNineLine);
 
 
