@@ -17,7 +17,7 @@ export function RequesterPage(){
             [name]: value,
         }));
     };
-    const handleSubmit = async (event:any) => {
+    const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
