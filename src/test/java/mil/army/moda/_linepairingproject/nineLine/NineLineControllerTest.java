@@ -52,11 +52,11 @@ class NineLineControllerTest {
 
         List<NineLine> nineLines = new ArrayList<>();
 
-        newNineLine = new NineLine("your house");
+        newNineLine = new NineLine("your house","1234");
         newNineLine.setId(1L);
-        secondNineLine = new NineLine("my house");
+        secondNineLine = new NineLine("my house","1234");
         newNineLine.setId(2L);
-        thirdNineLine = new NineLine("their house");
+        thirdNineLine = new NineLine("their house", "1234");
         newNineLine.setId(3L);
         nineLines.add(newNineLine);
         nineLines.add(secondNineLine);
@@ -73,7 +73,9 @@ class NineLineControllerTest {
                         .content(jsonMapper.writeValueAsString(newNineLine)))
                 // result matchers
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.location").value("your house"));
+                .andExpect(jsonPath("$.location").value("your house"))
+                .andExpect(jsonPath("$.callSign").value("1234"));
+
 
         // Assert
         verify(nineLineService, only()).createNineLine(captor.capture());

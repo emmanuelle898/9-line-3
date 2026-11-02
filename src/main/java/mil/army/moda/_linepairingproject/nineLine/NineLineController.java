@@ -14,13 +14,13 @@ import java.util.List;
 public class NineLineController {
     private final NineLineService nineLineService;
 
-    @PostMapping
+    @PostMapping("/api/nineline")
     public ResponseEntity<NineLine> createNineLine(@RequestBody NineLine nineLine){
        NineLine newNineLine = nineLineService.createNineLine(nineLine);
        return  new ResponseEntity<>(newNineLine, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/api/nineline")
     public List<NineLine> getAllNineLines(){
 //        List<NineLine> nineLines = nineLineService.getAllNineLines();
 //        return new ResponseEntity<>(nineLines, HttpStatus.OK);
