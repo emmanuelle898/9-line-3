@@ -24,17 +24,31 @@ class NineLineServiceTest {
     NineLineService nineLineService;
 
     NineLine newNineLine;
-
+    NineLine secondNineLine;
+    NineLine thirdNineLine;
+    List<NineLine> nineLines;
 
     @BeforeEach
     void setUp() {
-        //MockitoAnnotations.openMocks(this);
+
+        nineLines = new ArrayList<>();
+
         newNineLine = new NineLine("your house");
         newNineLine.setId(1L);
+        secondNineLine = new NineLine("my house");
+        secondNineLine.setId(2L);
+        thirdNineLine = new NineLine("their house");
+        thirdNineLine.setId(3L);
+        nineLines.add(newNineLine);
+        nineLines.add(secondNineLine);
+        nineLines.add(thirdNineLine);
+
     }
 
     @Test
     void shouldSaveNewNineLine(){
+        when(nineLineService.createNineLine(any(NineLine.class))).thenReturn(newNineLine);
+
         //Act
         when(nineLineRepository.save(newNineLine)).thenReturn(newNineLine);
         NineLine result = nineLineService.createNineLine(newNineLine);
@@ -44,8 +58,16 @@ class NineLineServiceTest {
         assertThat(result.getLocation()).isEqualTo("your house");
         verify(nineLineRepository, only()).save(newNineLine);
 
-
     }
 
+    @Test
+    void shouldGetAllNineLines(){
+        when(nineLineRepository.findAll()).thenReturn(nineLines);
+
+        List<NineLine> result = nineLineService.getAllNineLines();
+        verify(nineLineRepository, only()).findAll();
+        assertThat(result).isEqualTo(nineLines);
+
+    }
 
 }
