@@ -7,20 +7,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/nineline")
 public class NineLineController {
     private final NineLineService nineLineService;
 
-    @PostMapping("/api/nineline")
+    @PostMapping
     public ResponseEntity<NineLine> createNineLine(@RequestBody NineLine nineLine){
        NineLine newNineLine = nineLineService.createNineLine(nineLine);
        return  new ResponseEntity<>(newNineLine, HttpStatus.CREATED);
     }
 
-    @GetMapping("/api/nineline")
+    @GetMapping
     public List<NineLine> getAllNineLines(){
 //        List<NineLine> nineLines = nineLineService.getAllNineLines();
 //        return new ResponseEntity<>(nineLines, HttpStatus.OK);
