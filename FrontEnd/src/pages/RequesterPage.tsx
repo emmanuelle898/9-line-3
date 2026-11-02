@@ -10,7 +10,7 @@ export function RequesterPage(){
     });
 
     const handleChange = (event:any) => {
-        const { name, value } = event;
+        const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,

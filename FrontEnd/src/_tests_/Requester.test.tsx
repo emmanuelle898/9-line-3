@@ -8,7 +8,7 @@ import {saveNineLine} from "../NineLineAPI";
 //arrange
 
 describe('RequesterPage', () => {
-
+    let alertMock;
     beforeEach(() => {
         vi.clearAllMocks();
     });
