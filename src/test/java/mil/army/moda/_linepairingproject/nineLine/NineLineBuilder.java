@@ -1,15 +1,19 @@
 package mil.army.moda._linepairingproject.nineLine;
 
+import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
+
 public class NineLineBuilder {
     private Long id;
-    private String location = "location";
+    private String location;
     private String callSign;
     private Integer patientNumber;
 
+    private Precedence precedence;
 
 
 
-    public static NineLineBuilder request(){
+
+    public static NineLineBuilder nineline(){
         return new NineLineBuilder();
     }
     public NineLineBuilder withId(Long id){
@@ -29,9 +33,13 @@ public class NineLineBuilder {
         this.patientNumber=patientNumber;
         return this;
     }
+    public NineLineBuilder withPrecedence(Precedence precedence){
+        this.precedence=precedence;
+        return this;
+    }
 
 
     public NineLine build(){
-        return new NineLine(this.id, this.location, this.callSign, this.patientNumber);
+        return new NineLine(this.id, this.location, this.callSign, this.patientNumber, this.precedence);
     }
 }

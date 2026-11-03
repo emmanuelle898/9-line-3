@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mil.army.moda._linepairingproject.nineLine.NineLineBuilder.nineline;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -23,31 +24,10 @@ class NineLineServiceTest {
     @InjectMocks
     NineLineService nineLineService;
 
-    NineLine newNineLine;
-    NineLine secondNineLine;
-    NineLine thirdNineLine;
-    List<NineLine> nineLines;
-
-    @BeforeEach
-    void setUp() {
-
-        nineLines = new ArrayList<>();
-
-        newNineLine = new NineLine("your house", "1234",1);
-        newNineLine.setId(1L);
-        secondNineLine = new NineLine("my house", "1234",2);
-        secondNineLine.setId(2L);
-        thirdNineLine = new NineLine("their house", "1234",3);
-        thirdNineLine.setId(3L);
-        nineLines.add(newNineLine);
-        nineLines.add(secondNineLine);
-        nineLines.add(thirdNineLine);
-
-    }
-
     @Test
     void shouldSaveNewNineLine(){
-        when(nineLineService.createNineLine(any(NineLine.class))).thenReturn(newNineLine);
+        var newNineLine = nineline().withId(1L).withLocation("your house").withCallSign("1234")
+                .withPatientNumber(1).build();
 
         //Act
         when(nineLineRepository.save(newNineLine)).thenReturn(newNineLine);
@@ -65,6 +45,7 @@ class NineLineServiceTest {
 
     @Test
     void shouldGetAllNineLines(){
+        var nineLines= List.of(nineline().build(),nineline().build());
         when(nineLineRepository.findAll()).thenReturn(nineLines);
 
         List<NineLine> result = nineLineService.getAllNineLines();

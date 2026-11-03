@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
 
 import java.util.UUID;
 
@@ -25,6 +26,8 @@ public class NineLine {
     private String callSign;
     @Column
     private Integer patientNumber;
+
+    private Precedence precedence;
 
     public NineLine (String location, String callSign, Integer patientNumber) {
         this.location = location;

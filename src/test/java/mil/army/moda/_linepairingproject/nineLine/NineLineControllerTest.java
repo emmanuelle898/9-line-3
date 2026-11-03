@@ -1,5 +1,6 @@
 package mil.army.moda._linepairingproject.nineLine;
 
+import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static mil.army.moda._linepairingproject.nineLine.NineLineBuilder.nineline;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,32 +43,13 @@ class NineLineControllerTest {
     @Captor
     ArgumentCaptor<NineLine> captor = ArgumentCaptor.forClass(NineLine.class);
 
-    NineLine newNineLine;
-    NineLine secondNineLine;
-    NineLine thirdNineLine;
-
-
-
-    @BeforeEach
-    void setUp() {
-
-        List<NineLine> nineLines = new ArrayList<>();
-
-        newNineLine = new NineLine("your house","1234",1);
-        newNineLine.setId(1L);
-        secondNineLine = new NineLine("my house","1234",2);
-        newNineLine.setId(2L);
-        thirdNineLine = new NineLine("their house", "1234",3);
-        newNineLine.setId(3L);
-        nineLines.add(newNineLine);
-        nineLines.add(secondNineLine);
-        nineLines.add(thirdNineLine);
-        when(nineLineService.createNineLine(any(NineLine.class))).thenReturn(newNineLine);
-        when(nineLineService.getAllNineLines()).thenReturn(nineLines);
-    }
 
     @Test
     void shouldCreateNewNineLine() throws Exception {
+        var newNineLine = nineline().withId(1L).withLocation("your house").withCallSign("1234")
+                .withPatientNumber(1).withPrecedence(Precedence.URGENT).build();
+
+        when(nineLineService.createNineLine(any(NineLine.class))).thenReturn(newNineLine);
         // Act
         mockMvc.perform(post("/api/nineline")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -75,7 +58,8 @@ class NineLineControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.location").value("your house"))
                 .andExpect(jsonPath("$.callSign").value("1234"))
-                .andExpect(jsonPath("$.patientNumber").value(1));
+                .andExpect(jsonPath("$.patientNumber").value(1))
+                .andExpect(jsonPath("$.precedence").value("URGENT"));
 
 
         // Assert
@@ -86,14 +70,17 @@ class NineLineControllerTest {
 
     @Test
     void shouldFetchAllNineLines() throws Exception {
+        var nineLines = List.of(nineline().withLocation("your house").build(), nineline()
+                .withLocation("my house")
+                .build());
+        when(nineLineService.getAllNineLines()).thenReturn(nineLines);
 
 
         mockMvc.perform(get("/api/nineline"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].location").value("your house"))
                 .andExpect(jsonPath("$[1].location").value("my house"))
-                .andExpect(jsonPath("$[2].location").value("their house"))
-        .andExpect(jsonPath("$", hasSize(3)));
+                .andExpect(jsonPath("$", hasSize(2)));
 
         verify(nineLineService, only()).getAllNineLines();
 
