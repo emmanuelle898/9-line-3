@@ -17,7 +17,7 @@ export const saveNineLine: nineLinePromise = (nineLine: NineLine) => {
     })
 };
 
-export const fetchAllNineLine: nineLineList = async () => {
+export const fetchAllNineLine: nineLineList = async ():Promise<NineLine[]> => {
     return fetch(apiBaseURL + "api/nineline", {
             method: 'GET'
     }).then((response)=> {
