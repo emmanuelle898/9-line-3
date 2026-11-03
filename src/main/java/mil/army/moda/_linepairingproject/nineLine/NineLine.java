@@ -20,9 +20,9 @@ public class NineLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String callSign;
-    @Column
     private String location;
+    @Column
+    private String callSign;
     @Column
     private Integer patientNumber;
 
