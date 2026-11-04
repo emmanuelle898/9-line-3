@@ -4,12 +4,12 @@ CREATE TABLE nine_line
     location            VARCHAR(255),
     call_sign           VARCHAR(255),
     precedence_counters JSONB,
-    special_equipment   SMALLINT,
+    special_equipment   VARCHAR(255),
     litter_patient      INTEGER,
     ambulatory_patient  INTEGER,
-    security            SMALLINT,
-    markings            SMALLINT,
-    patient_status      SMALLINT,
-    contamination       SMALLINT,
+    security            VARCHAR(255),
+    markings            VARCHAR(255),
+    patient_status      VARCHAR(255),
+    contamination       VARCHAR(255),
     CONSTRAINT pk_nineline PRIMARY KEY (id)
 );
