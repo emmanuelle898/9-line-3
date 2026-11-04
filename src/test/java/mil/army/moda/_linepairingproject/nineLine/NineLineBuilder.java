@@ -1,7 +1,9 @@
 package mil.army.moda._linepairingproject.nineLine;
 
 import jakarta.persistence.Column;
+import mil.army.moda._linepairingproject.nineLine.contamination.Contamination;
 import mil.army.moda._linepairingproject.nineLine.marking.Marking;
+import mil.army.moda._linepairingproject.nineLine.patientStatus.PatientStatus;
 import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
 import mil.army.moda._linepairingproject.nineLine.security.Security;
 import mil.army.moda._linepairingproject.nineLine.specialEquipment.SpecialEquipment;
@@ -19,6 +21,8 @@ public class NineLineBuilder {
     private Integer ambulatoryPatient;
     private Security security;
     private Set<Marking> markings;
+    private PatientStatus patientStatus;
+    private Contamination contamination;
 
     public static NineLineBuilder nineline(){
         return new NineLineBuilder();
@@ -62,9 +66,20 @@ public class NineLineBuilder {
         this.markings = markings;
         return this;
     }
+    public NineLineBuilder withPatientStatus(PatientStatus patientStatus){
+        this.patientStatus = patientStatus;
+        return this;
+    }
+    public NineLineBuilder withContamination(Contamination contamination){
+        this.contamination = contamination;
+        return this;
+    }
+
+
 
     public NineLine build(){
         return new NineLine(this.id, this.location, this.callSign, this.precedenceCounters,
-                this.specialEquipment, this.litterPatient, this.ambulatoryPatient, this.security, this.markings);
+                this.specialEquipment, this.litterPatient, this.ambulatoryPatient, this.security, this.markings,
+                this.patientStatus, this.contamination);
     }
 }

@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mil.army.moda._linepairingproject.nineLine.contamination.Contamination;
 import mil.army.moda._linepairingproject.nineLine.marking.Marking;
+import mil.army.moda._linepairingproject.nineLine.patientStatus.PatientStatus;
 import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
 import mil.army.moda._linepairingproject.nineLine.security.Security;
 import mil.army.moda._linepairingproject.nineLine.specialEquipment.SpecialEquipment;
@@ -44,6 +46,10 @@ public class NineLine {
     private Security security;
     @Column
     private Set<Marking> markings;
+    @Column
+    private PatientStatus patientStatus;
+    @Column
+    private Contamination contamination;
 
     public NineLine(Map<Precedence, Integer> precedenceCounters) {
         this.precedenceCounters = precedenceCounters;
