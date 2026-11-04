@@ -1,6 +1,11 @@
 package mil.army.moda._linepairingproject.nineLine;
 
+import mil.army.moda._linepairingproject.nineLine.contamination.Contamination;
+import mil.army.moda._linepairingproject.nineLine.marking.Marking;
+import mil.army.moda._linepairingproject.nineLine.patientStatus.PatientStatus;
 import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
+import mil.army.moda._linepairingproject.nineLine.security.Security;
+import mil.army.moda._linepairingproject.nineLine.specialEquipment.SpecialEquipment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -89,5 +94,36 @@ class NineLineControllerTest {
         verify(nineLineService, only()).getAllNineLines();
 
     }
+
+    @Test
+    void shouldFetchAllNineLinesWithAllFields() throws Exception {
+        Map<Precedence, Integer> precedenceCounters = new EnumMap<>(Precedence.class) {{
+            put(Precedence.CONVENIENCE, 2);
+            put(Precedence.PRIORITY, 2);
+            put(Precedence.ROUTINE, 1);
+        }};
+        Set<SpecialEquipment> specialEquipment = new HashSet<SpecialEquipment>();
+        specialEquipment.add(SpecialEquipment.HOIST);
+        specialEquipment.add(SpecialEquipment.VENTILATOR);
+
+        Set<Marking> markings = new HashSet<Marking>();
+        markings.add(Marking.NONE);
+
+
+        var nineLines = List.of(new NineLine(3L,"32UPA1234567890","Killer 1",precedenceCounters,specialEquipment,
+               2, 3, Security.NO_THREAT, markings, PatientStatus.NON_US_MILITARY, Contamination.NONE),
+                new NineLine(4L,"32UPA5555511111","George 1",precedenceCounters,specialEquipment,
+                        0, 5, Security.NO_THREAT, markings, PatientStatus.NON_US_MILITARY, Contamination.NONE));
+        when(nineLineService.getAllNineLines()).thenReturn(nineLines);
+
+
+        mockMvc.perform(get("/api/nineline"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].location").value("32UPA1234567890"))
+                .andExpect(jsonPath("$[1].callSign").value("George 1"))
+                .andExpect(jsonPath("$", hasSize(2)));
+
+        verify(nineLineService, only()).getAllNineLines();
+        }
 
 }

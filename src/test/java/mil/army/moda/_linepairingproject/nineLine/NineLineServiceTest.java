@@ -1,5 +1,11 @@
 package mil.army.moda._linepairingproject.nineLine;
 
+import mil.army.moda._linepairingproject.nineLine.contamination.Contamination;
+import mil.army.moda._linepairingproject.nineLine.marking.Marking;
+import mil.army.moda._linepairingproject.nineLine.patientStatus.PatientStatus;
+import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
+import mil.army.moda._linepairingproject.nineLine.security.Security;
+import mil.army.moda._linepairingproject.nineLine.specialEquipment.SpecialEquipment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,8 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +34,19 @@ class  NineLineServiceTest {
     @BeforeEach
     void setUp() {
         //MockitoAnnotations.openMocks(this);
-        newNineLine = new NineLine("your house","1234FX");
+        Map<Precedence, Integer> precedenceCounters = new EnumMap<>(Precedence.class) {{
+            put(Precedence.CONVENIENCE, 2);
+            put(Precedence.PRIORITY, 2);
+            put(Precedence.ROUTINE, 1);
+        }};
+        Set<SpecialEquipment> specialEquipment = new HashSet<SpecialEquipment>();
+        specialEquipment.add(SpecialEquipment.HOIST);
+        specialEquipment.add(SpecialEquipment.VENTILATOR);
+
+        Set<Marking> markings = new HashSet<Marking>();
+        markings.add(Marking.NONE);
+        newNineLine = new NineLine(3L,"32UPA1234567890","Killer 1",precedenceCounters,specialEquipment,
+                2, 3, Security.NO_THREAT, markings, PatientStatus.NON_US_MILITARY, Contamination.NONE);
         newNineLine.setId(1L);
     }
 
