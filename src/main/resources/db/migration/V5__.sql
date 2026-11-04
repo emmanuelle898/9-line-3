@@ -1,8 +1,3 @@
 ALTER TABLE nine_line
-    ADD special_equipment SMALLINT;
+    ADD special_equipment VARCHAR (255);
 
-ALTER TABLE nine_line
-    DROP COLUMN precedence;
-
-ALTER TABLE nine_line
-    ADD precedence SMALLINT;

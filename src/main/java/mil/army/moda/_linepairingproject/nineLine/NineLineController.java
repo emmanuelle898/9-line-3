@@ -23,8 +23,7 @@ public class NineLineController {
 
     @GetMapping
     public List<NineLine> getAllNineLines(){
-//        List<NineLine> nineLines = nineLineService.getAllNineLines();
-//        return new ResponseEntity<>(nineLines, HttpStatus.OK);
+
         return nineLineService.getAllNineLines();
     }
 }
