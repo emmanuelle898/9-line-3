@@ -31,19 +31,20 @@ describe('RequesterPage', () => {
         const myLocation = "12345asdfghjkl";
         const input = screen.getByRole("textbox", {name: /Location/i});
         await userEvent.type(input, myLocation);
-        expect(alertMock).toHaveBeenCalledWith(`Form submmited succesfully ${myLocation}`);
         const submit = screen.getByRole("button", {name: /Submit/i})
         await user.click(submit);
-
-        const alertElement = screen.getByRole('textbox');
         // const alertMock = vi.spyOn(window, 'alert').mockImplementation(()=>{});
+const alert=  screen.getByRole('alert')
+        expect(alert).toHaveBeenCalledWith(`Form submmited succesfully ${myLocation}`);
+        const alertElement = screen.getByRole('textbox');
         expect(alertElement).toBeInTheDocument();
         expect(alertElement).toHaveTextContent(`Form submitted successfully ${myLocation}`);
     })
 
     it("should show API response successfully", async () => {
         render(<RequesterPage/>);
-        const myRadioFrequency = screen.getByRole("text", {name: /Radio Frequency/i})
+        const myRadioFrequency = screen.getByRole("textbox", {name: /Radio Frequency/i})
         await userEvent.click(myRadioFrequency);
+
     })
 })
