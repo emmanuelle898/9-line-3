@@ -26,8 +26,7 @@ class NineLineServiceTest {
 
     @Test
     void shouldSaveNewNineLine(){
-        var newNineLine = nineline().withId(1L).withLocation("your house").withCallSign("1234")
-                .withPatientNumber(1).build();
+        var newNineLine = nineline().withId(1L).withLocation("your house").withCallSign("1234").build();
 
         //Act
         when(nineLineRepository.save(newNineLine)).thenReturn(newNineLine);
@@ -37,7 +36,6 @@ class NineLineServiceTest {
         assertThat(result.getId()).isEqualTo(1L);
         assertThat(result.getLocation()).isEqualTo("your house");
         assertThat(result.getCallSign()).isEqualTo("1234");
-        assertThat(result.getPatientNumber()).isEqualTo(1);
         verify(nineLineRepository, only()).save(newNineLine);
 
 

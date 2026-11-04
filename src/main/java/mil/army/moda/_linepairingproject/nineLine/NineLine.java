@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import java.util.UUID;
+import java.util.Map;
 
 
 @Getter
@@ -24,15 +26,19 @@ public class NineLine {
     private String location;
     @Column
     private String callSign;
-    @Column
-    private Integer patientNumber;
 
-    private Precedence precedence;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name= "precedence_counters", columnDefinition = "jsonb")
+    private Map<Precedence, Integer> precedenceCounters;
 
-    public NineLine (String location, String callSign, Integer patientNumber) {
+    public NineLine(Map<Precedence, Integer> precedenceCounters) {
+        this.precedenceCounters = precedenceCounters;
+    }
+
+    public NineLine (String location, String callSign, Map<Precedence, Integer> precedenceCounters) {
         this.location = location;
         this.callSign = callSign;
-        this.patientNumber = patientNumber;
+        this.precedenceCounters = precedenceCounters;
     }
 
 }

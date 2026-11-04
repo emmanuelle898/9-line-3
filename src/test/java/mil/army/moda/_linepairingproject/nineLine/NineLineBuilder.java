@@ -2,13 +2,13 @@ package mil.army.moda._linepairingproject.nineLine;
 
 import mil.army.moda._linepairingproject.nineLine.presedence.Precedence;
 
+import java.util.Map;
+
 public class NineLineBuilder {
     private Long id;
     private String location;
     private String callSign;
-    private Integer patientNumber;
-
-    private Precedence precedence;
+    private Map<Precedence, Integer> precedenceCounters;
 
 
 
@@ -29,17 +29,12 @@ public class NineLineBuilder {
         return this;
     }
 
-    public NineLineBuilder withPatientNumber( Integer patientNumber){
-        this.patientNumber=patientNumber;
+    public NineLineBuilder withPrecedence(Map<Precedence, Integer> precedenceCounters){
+        this.precedenceCounters =  precedenceCounters;
         return this;
     }
-    public NineLineBuilder withPrecedence(Precedence precedence){
-        this.precedence=precedence;
-        return this;
-    }
-
 
     public NineLine build(){
-        return new NineLine(this.id, this.location, this.callSign, this.patientNumber, this.precedence);
+        return new NineLine(this.id, this.location, this.callSign, this.precedenceCounters);
     }
 }
