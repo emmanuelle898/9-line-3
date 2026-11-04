@@ -4,7 +4,12 @@ CREATE TABLE nine_line
     location            VARCHAR(255),
     call_sign           VARCHAR(255),
     precedence_counters JSONB,
+    special_equipment   SMALLINT,
+    litter_patient      INTEGER,
+    ambulatory_patient  INTEGER,
+    security            SMALLINT,
+    markings            SMALLINT,
+    patient_status      SMALLINT,
+    contamination       SMALLINT,
     CONSTRAINT pk_nineline PRIMARY KEY (id)
 );
-
-DROP SEQUENCE nine_line_id_seq CASCADE;
