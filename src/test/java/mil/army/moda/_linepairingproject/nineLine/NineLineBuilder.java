@@ -1,6 +1,7 @@
 package mil.army.moda._linepairingproject.nineLine;
 
 import jakarta.persistence.Column;
+import mil.army.moda._linepairingproject.nineLine.RequestStatus.RequestStatus;
 import mil.army.moda._linepairingproject.nineLine.contamination.Contamination;
 import mil.army.moda._linepairingproject.nineLine.marking.Marking;
 import mil.army.moda._linepairingproject.nineLine.patientStatus.PatientStatus;
@@ -12,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class NineLineBuilder {
-    private Long id;
+    private Long id = 1L;
     private String location;
     private String callSign;
     private Map<Precedence, Integer> precedenceCounters;
@@ -23,18 +24,27 @@ public class NineLineBuilder {
     private Set<Marking> markings;
     private PatientStatus patientStatus;
     private Contamination contamination;
+    private RequestStatus requestStatus = RequestStatus.SUBMITTED;
 
     public static NineLineBuilder nineline(){
         return new NineLineBuilder();
     }
+
     public NineLineBuilder withId(Long id){
         this.id=id;
         return this;
     }
+
+    public NineLineBuilder withRequestStatus(RequestStatus requestStatus) {
+        this.requestStatus = requestStatus;
+        return this;
+    }
+
     public NineLineBuilder withLocation(String location){
         this.location=location;
         return this;
     }
+
     public NineLineBuilder withCallSign(String callSign){
         this.callSign=callSign;
         return this;
@@ -80,6 +90,6 @@ public class NineLineBuilder {
     public NineLine build(){
         return new NineLine(this.id, this.location, this.callSign, this.precedenceCounters,
                 this.specialEquipment, this.litterPatient, this.ambulatoryPatient, this.security, this.markings,
-                this.patientStatus, this.contamination);
+                this.patientStatus, this.contamination, this.requestStatus);
     }
 }
