@@ -1,5 +1,6 @@
 package mil.army.moda._linepairingproject.nineLine;
 
+import mil.army.moda._linepairingproject.nineLine.RequestStatus.RequestStatus;
 import mil.army.moda._linepairingproject.nineLine.contamination.Contamination;
 import mil.army.moda._linepairingproject.nineLine.marking.Marking;
 import mil.army.moda._linepairingproject.nineLine.patientStatus.PatientStatus;
@@ -55,12 +56,12 @@ class NineLineControllerTest {
             put(Precedence.ROUTINE, 1);
         }};
         var newNineLine = nineline().withId(1L).withLocation("your mom's house").withCallSign("1234")
-                        .withPrecedence(precedenceCounters);
-        when(nineLineService.createNineLine(any(NineLine.class))).thenReturn(newNineLine.build());
+                        .withPrecedence(precedenceCounters).build();
+        when(nineLineService.createNineLine(any(NineLine.class))).thenReturn(newNineLine);
         // Act
         mockMvc.perform(post("/api/nineline")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonMapper.writeValueAsString(newNineLine.build())))
+                        .content(jsonMapper.writeValueAsString(newNineLine)))
                 // result matchers
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.location").value("your mom's house"))
@@ -73,7 +74,7 @@ class NineLineControllerTest {
         verify(nineLineService, times(1)).createNineLine(captor.capture());
         assertThat(captor.getValue())
                 .usingRecursiveComparison()
-                .isEqualTo(newNineLine.build());
+                .isEqualTo(newNineLine);
         verify(nineLineService, times(1)).createNineLine(any(NineLine.class));
     }
 
@@ -111,9 +112,10 @@ class NineLineControllerTest {
 
 
         var nineLines = List.of(new NineLine(3L,"32UPA1234567890","Killer 1",precedenceCounters,specialEquipment,
-               2, 3, Security.NO_THREAT, markings, PatientStatus.NON_US_MILITARY, Contamination.NONE),
+               2, 3, Security.NO_THREAT, markings, PatientStatus.NON_US_MILITARY, Contamination.NONE, RequestStatus.SUBMITTED),
                 new NineLine(4L,"32UPA5555511111","George 1",precedenceCounters,specialEquipment,
-                        0, 5, Security.NO_THREAT, markings, PatientStatus.NON_US_MILITARY, Contamination.NONE));
+                        0, 5, Security.NO_THREAT, markings, PatientStatus.NON_US_MILITARY,
+                        Contamination.NONE, RequestStatus.SUBMITTED));
         when(nineLineService.getAllNineLines()).thenReturn(nineLines);
 
 
