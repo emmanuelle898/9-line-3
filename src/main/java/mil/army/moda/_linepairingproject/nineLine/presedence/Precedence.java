@@ -7,5 +7,4 @@ public enum Precedence {
     PRIORITY,
     ROUTINE,
     CONVENIENCE;
-
 }
