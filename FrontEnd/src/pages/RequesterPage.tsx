@@ -1,7 +1,6 @@
 import {useState} from "react";
 import {saveNineLine} from "../NineLineAPI";
 import * as React from "react";
-import {Precedence} from "../components/Precedence";
 
 
 export function RequesterPage() {
@@ -10,35 +9,60 @@ export function RequesterPage() {
         location: "",
         callSign: "",
         precedenceCounters: {
-            "PRIORITY": 0,
-            "URGENT": 0,
-            "URGENT_SURGICAL": 0,
-            "ROUTINE": 0,
-            "CONVENIENCE": 0
+            "PRIORITY": "0",
+            "URGENT": "0",
+            "URGENT_SURGICAL": "0",
+            "ROUTINE": "0",
+            "CONVENIENCE": "0"
         },
         specialEquipment: [],
-        litterPatient: 0,
-        ambulatoryPatient: 0,
-        security: [],
+        litterPatient: "0",
+        ambulatoryPatient: "0",
+        security: "",
         markings: [],
         patientStatus: "",
         contamination: ""
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const {name, value} = event.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
+    const handleTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = event.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormData((prev) => ({ ...prev, [name]: value || 0 }));
+    };
+
+    const handlePrecedenceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormData((prev) => ({
+            ...prev,
+            precedenceCounters: {
+                ...prev.precedenceCounters,
+                [name]: value === "" ? 0 : value || 0
+            }
         }));
     };
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, checked } = event.target;
+        setFormData((prev) => {
+            const currentArray = prev[name as keyof typeof prev] as string[];
+            const updatedArray = checked
+                ? [...currentArray, value]
+                : currentArray.filter((item) => item !== value);
+
+            return { ...prev, [name]: updatedArray };
+        });
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
             const response = await saveNineLine(formData);
             console.log("API response:", response);
-            alert(`Form submitted successfully:\n${JSON.stringify(formData)}`);
+            alert(`Form submitted successfully:\n${JSON.stringify(response)}`);
         } catch (error) {
             console.error("Failed to save Nine Line:", error);
             alert("Failed to submit the form.");
@@ -77,7 +101,7 @@ export function RequesterPage() {
                     <input
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="location" type="text" name="location" value={formData.location}
-                        placeholder="MGRS two 5 digit blocks" onChange={handleChange}/>
+                        placeholder="MGRS two 5 digit blocks" onChange={handleTextChange}/>
                     {/*<p className="text-red-500 text-xs italic">Please fill out this field.</p>*/}
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -88,7 +112,7 @@ export function RequesterPage() {
                     <input
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="callSign" type="text" name="callSign" value={formData.callSign}
-                        placeholder="Call sign and Radio Frequency" onChange={handleChange}/>
+                        placeholder="Call sign and Radio Frequency" onChange={handleTextChange}/>
                 </div>
             </div>
             <div className="flex flex-row gap-4 w-full pb-2">
@@ -103,11 +127,12 @@ export function RequesterPage() {
                                 <input
                                     type="number"
                                     id={priority}
+                                    name={priority}
                                     min="0"
                                     max="10"
                                     placeholder="0"
                                     className="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    onChange={handleChange}
+                                    onChange={handlePrecedenceChange}
                                 />
                             </div>
                         </div>
@@ -123,9 +148,10 @@ export function RequesterPage() {
                             <label className="flex items-center space-x-3 cursor-pointer select-none">
                                 <input
                                     type="checkbox"
+                                    name="specialEquipment"
                                     className="w-5 h-5 text-blue-600 bg-white border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 focus:ring-offset-2 accent-blue-600 cursor-pointer"
                                     value={specialEquipment}
-                                    onChange={handleChange}
+                                    onChange={handleCheckboxChange}
                                 />
                                 <span className="text-sm font-medium text-gray-700">{specialEquipment}</span>
                             </label>
@@ -134,24 +160,24 @@ export function RequesterPage() {
             </fieldset>
 
             <div className="flex flex-row gap-4 w-full pb-2">
-                {['LITTER', 'AMBULATORY'].map((status, index) => {
+                {['litterPatient', 'ambulatoryPatient'].map((status) => {
                     return (
                         <div key={status} className="flex-1 min-w-[120px]">
-                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                   htmlFor={status}>
-                                {status}
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor={status}>
+                                {/* Visual labels can still look clean */}
+                                {status === 'litterPatient' ? 'LITTER' : 'AMBULATORY'}
                             </label>
-                            <div className="relative">
-                                <input
-                                    type="number"
-                                    id={status}
-                                    min="0"
-                                    max="10"
-                                    placeholder="0"
-                                    className="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    onChange={handleChange}
-                                />
-                            </div>
+                            <input
+                                type="number"
+                                id={status}
+                                name={status}
+                                min="0"
+                                max="10"
+                                placeholder="0"
+                                value={formData[status as 'litterPatient' | 'ambulatoryPatient']}
+                                onChange={handleNumberChange}
+                                className="..."
+                            />
                         </div>
                     )
                 })}
@@ -167,7 +193,8 @@ export function RequesterPage() {
                         <select
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id={'security'}
-                            onChange={handleChange}
+                            name="security"
+                            onChange={handleTextChange}
                         >
                             <option value={'NO_THREAT'}>NO THREAT</option>
                             <option value={'POSSIBLE_THREAT'}>POSSIBLE THREAT</option>
@@ -196,9 +223,10 @@ export function RequesterPage() {
                             <label className="flex items-center space-x-3 cursor-pointer select-none">
                                 <input
                                     type="checkbox"
+                                    name="markings"
                                     className="w-5 h-5 text-blue-600 bg-white border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 focus:ring-offset-2 accent-blue-600 cursor-pointer"
                                     value={marking}
-                                    onChange={handleChange}
+                                    onChange={handleCheckboxChange}
                                 />
                                 <span className="text-sm font-medium text-gray-700">{marking}</span>
                             </label>
@@ -209,16 +237,17 @@ export function RequesterPage() {
 
 
             <div className="flex flex-wrap -mx-3">
-                <div key={'patienttatus'} className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div key={'patient status'} className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                            htmlFor={'patient status'}>
                         {'patient status'}
                     </label>
                     <div className="relative">
                         <select
+                            name="patientStatus"
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id={'patient status'}
-                            onChange={handleChange}
+                            onChange={handleTextChange}
                         >
                             <option value={'US_MILITARY'}>US MILITARY</option>
                             <option value={'US_CIVILIAN'}>US CIVILIAN</option>
@@ -245,9 +274,10 @@ export function RequesterPage() {
                     </label>
                     <div className="relative">
                         <select
+                            name={"contamination"}
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id={'contamination'}
-                            onChange={handleChange}
+                            onChange={handleTextChange}
                         >
                             <option value={'NUCLEAR'}>NUCLEAR</option>
                             <option value={'BIOLOGICAL'}>BIOLOGICAL</option>

@@ -1,11 +1,24 @@
-import {Precedence} from "@/components/Precedence";
-type PrecedenceType = typeof Precedence[keyof typeof Precedence];
 
+
+
+export type PrecedenceType = {
+    PRIORITY?: string;
+    URGENT?: string;
+    URGENT_SURGICAL?: string;
+    ROUTINE?: string;
+    CONVENIENCE?: string;
+};
 
 export type NineLine = {
     id?: number;
     location: string;
     callSign: string;
-    precedence: PrecedenceType
-
+    precedenceCounters: PrecedenceType; // Matches your "precedenceCounters" key
+    specialEquipment: string[];
+    litterPatient: string;
+    ambulatoryPatient: string;
+    security: string;
+    markings: string[];
+    patientStatus: string;
+    contamination: string;
 };

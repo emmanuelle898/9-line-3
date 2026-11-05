@@ -38,12 +38,15 @@ describe('RequesterPage', () => {
             "location": "12345 12345",
             "callSign": "temu7",
             "precedenceCounters": {
-                "PRIORITY": 2,
-                "URGENT": 3
+                "PRIORITY": "2",
+                "URGENT": "3",
+                "URGENT_SURGICAL": "0",
+                "ROUTINE": "0",
+                "CONVENIENCE": "0"
             },
             "specialEquipment": ["HOIST","VENTILATOR"],
-            "litterPatient": 3,
-            "ambulatoryPatient": 2,
+            "litterPatient": "3",
+            "ambulatoryPatient": "2",
             "security": "ESCORT_REQUIRED",
             "markings": ["SMOKE_SIGNAL","PANEL"],
             "patientStatus": "US_MILITARY",
@@ -79,14 +82,14 @@ describe('RequesterPage', () => {
 
         const litter = screen.getByRole('spinbutton', { name: /litter/i });
         await user.clear(litter);
-        await user.type(litter,"3");
+        await user.type(litter,newNineLine.litterPatient);
 
-        const ambulatory = screen.getByRole('spinbutton', { name: /^ambulatory$/i });
+        const ambulatory = screen.getByRole('spinbutton', { name: /ambulatory/i });
         await user.clear(ambulatory);
-        await user.type(ambulatory,"3");
+        await user.type(ambulatory, newNineLine.ambulatoryPatient);
 
         const security = screen.getByRole('combobox', { name: /security/i });
-        await user.selectOptions(security, 'ESCORT_REQUIRED');
+        await user.selectOptions(security, newNineLine.security);
 
         const smoke = screen.getByRole('checkbox', { name: /smoke/i });
         await user.click(smoke);
@@ -95,10 +98,10 @@ describe('RequesterPage', () => {
         await user.click(panel);
 
         const patient_nation = screen.getByRole('combobox', { name: /patient status/i });
-        await user.selectOptions(patient_nation, 'US_MILITARY');
+        await user.selectOptions(patient_nation, newNineLine.patientStatus);
 
         const contamination = screen.getByRole('combobox', { name: /contamination/i });
-        await user.selectOptions(contamination, 'NUCLEAR');
+        await user.selectOptions(contamination, newNineLine.contamination);
 
         const submit = screen.getByRole("button", {name: /Submit/i})
         await user.click(submit);
