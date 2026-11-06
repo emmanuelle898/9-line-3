@@ -1,5 +1,13 @@
 export function ResponderPage(){
+
+
     return(
-        <h1>Hello Responder</h1>
+        <>
+            <h1>ResponderPage</h1>
+
+            <button>
+                Assign
+            </button>
+        </>
     );
 }
