@@ -1,0 +1,5 @@
+INSERT INTO team (call_sign)
+VALUES
+('DUSTOFF'),
+('WOLFPACK98'),
+('BULL6');
