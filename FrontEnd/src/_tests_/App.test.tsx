@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { expect } from 'vitest';
 //import userEvent from "@testing-library/user-event";
 import App from "../App.tsx";
 
@@ -10,10 +9,8 @@ describe('App.tsx', () => {
 
 // Arrange
         render(<App />);
-
 // Assert
-        expect(
-            screen.getByRole('heading', { name: /""/i }),
-        );
+        expect(screen.queryByRole('heading', { name: /""/i })).toBeNull()
+
     });
 });

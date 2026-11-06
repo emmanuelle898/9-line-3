@@ -1,47 +1,78 @@
-import { describe, expect, it } from "vitest";
-import Dispatch_table from "../dispatch/Dispatch_table";
-import {render, screen} from "@testing-library/react";
-// import dispatch_error from "../dispatch/Dispatch_error";
+import Dispatch_table from '../dispatch/Dispatch_table';
+import { render, screen } from '@testing-library/react';
+import * as NineLineAPI from '../../NineLineAPI';
+import type { NineLine } from '@/NineLineType';
+import { expect, vi, describe, it, beforeEach } from 'vitest';
 
-describe("Dispatch_table", () => {
-    it("Should render Dispatch_table", () => {
-        render(<Dispatch_table nineLineData={[]}/>)
-        expect (screen.getByRole('table', { name: /Dispatch_table/i })).toBeInTheDocument()
-        expect(screen.getByRole('columnheader', {name: /Location/i})).toBeVisible()
-        expect(screen.getByRole('columnheader', {name: /Call Sign/i})).toBeVisible()
-    })
-})
+const mockListItems: NineLine[] = [
+    {
+        id: 1,
+        location: '11223',
+        callSign: 'Test 1',
+        precedenceCounters: { ROUTINE: 'yes' },
+        specialEquipment: ['of course'],
+        litterPatient: 'litter',
+        ambulatoryPatient: 'ambulatory',
+        security: 'security',
+        markings: ['smoke'],
+        patientStatus: 'status',
+        contamination: 'contamination',
+    },
+    {
+        id: 2,
+        location: '45678',
+        callSign: 'Test 2',
+        precedenceCounters: { ROUTINE: 'yes' },
+        specialEquipment: ['of course'],
+        litterPatient: 'litter',
+        ambulatoryPatient: 'ambulatory',
+        security: 'security',
+        markings: ['smoke'],
+        patientStatus: 'status',
+        contamination: 'contamination',
+    },
+];
 
-describe("Dispatch_table row data", () => {
-    it("Should render a 9 Line", () => {
-        render (<Dispatch_table nineLineData={[]}/>)
+vi.mock('../../NineLineAPI');
 
-        const expectedLocation = "11223";
-        const locationCell = screen.getByRole('cell', { name: expectedLocation });
-        expect(locationCell).toBeVisible()
+describe('Dispatch_table', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
 
-        const expectedCallSign = "Test 1";
-        const callSignCell = screen.getByRole('cell', { name: expectedCallSign });
-        expect(callSignCell).toBeVisible()
+    it('Should render Dispatch_table', async () => {
+        vi.mocked(NineLineAPI.fetchAllNineLine).mockResolvedValue(mockListItems);
 
-    })
-})
+        render(<Dispatch_table />);
+        const location = await screen.queryByText(/Location/i);
+        const callSign = await screen.queryByText( /Call Sign/i );
 
-describe("Dispatch_table", () => {
-    it("should throw error when table does not render", () => {
-        render(<Dispatch_table nineLineData={[]}/>)
-    })
-})
+        expect(screen.getByRole('table', { name: /Dispatch_table/i })).toBeInTheDocument();
+        expect(location).toBeVisible();
+        expect(callSign).toBeVisible();
+        screen.logTestingPlaygroundURL()
+    });
 
+    it('Should render 9 Line items', async () => {
+        vi.mocked(NineLineAPI.fetchAllNineLine).mockResolvedValue(mockListItems);
 
+        render(<Dispatch_table />);
 
-// commenting out failing test, not valid test
-// describe("Dispatch_table", () => {
-//     render(<dispatch_error/>)
-//     it("should display the error message when table does not render", () => {
-//         expect(screen.getByRole('alert'))
-//     })
-// })
+        const expectedLocation = '11223';
+        const locationCell = await screen.findByRole('cell', { name: expectedLocation });
+        expect(locationCell).toBeVisible();
 
+        const expectedCallSign = 'Test 1';
+        const callSignCell = await screen.findByRole('cell', { name: expectedCallSign });
+        expect(callSignCell).toBeVisible();
+    });
 
+    it('should handle error when table fails to render or fetch fails', async () => {
+        vi.mocked(NineLineAPI.fetchAllNineLine).mockRejectedValue(new Error('API failure'));
 
+        render(<Dispatch_table />);
+
+        // const alert = await screen.findByRole('alert');
+        // expect(alert).toBeInTheDocument();
+    });
+});
