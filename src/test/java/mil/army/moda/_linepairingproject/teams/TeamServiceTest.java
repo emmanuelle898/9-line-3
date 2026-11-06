@@ -46,4 +46,18 @@ class TeamServiceTest {
         assertThat(results).isEqualTo(allTeams);
     }
 
+    @Test
+    void shouldCreateNewTeam(){
+        Team newTeam1= teamBuilder().withId(1L).withCallSign("1234").build();
+
+        when(teamRepository.save(newTeam1)).thenReturn(newTeam1);
+         Team result = teamService.createNewTeam(newTeam1);
+
+        assertThat(result.getId()).isEqualTo(1L);
+         assertThat(result.getCallSign()).isEqualTo("1234");
+         verify(teamRepository, only()).save(newTeam1);
+
+
+    }
+
 }

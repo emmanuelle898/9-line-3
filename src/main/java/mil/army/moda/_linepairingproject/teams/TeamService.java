@@ -10,7 +10,16 @@ import java.util.List;
 public class TeamService {
     private final TeamRepository teamRepository;
 
-    public List<Team> getAllTeams(){
-        return teamRepository.findAll();}
+    public List<Team> getAllTeams() {
+        return teamRepository.findAll();
     }
+
+
+    public Team createNewTeam(Team team) {
+        return teamRepository.save(team);
+
+    }
+}
+
+
 
