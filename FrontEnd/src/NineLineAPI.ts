@@ -12,7 +12,13 @@ export const saveNineLine: nineLinePromise = (nineLine: NineLine) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(nineLine)
-    }).then((response) => {
+    }).then(async (response) => {
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            console.error("Backend error:", errorMessage);
+            throw new Error(`Failed to save: ${response.status}`);
+        }
+
         return response.json();
     })
 };

@@ -18,10 +18,10 @@ export function RequesterPage() {
         specialEquipment: [],
         litterPatient: "0",
         ambulatoryPatient: "0",
-        security: "",
+        security: "NO THREAT",
         markings: [],
-        patientStatus: "",
-        contamination: ""
+        patientStatus: "US MILITARY",
+        contamination: "NUCLEAR"
     });
 
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -31,7 +31,7 @@ export function RequesterPage() {
 
     const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setFormData((prev) => ({ ...prev, [name]: value || 0 }));
+        setFormData((prev) => ({ ...prev, [name]: value === "" ? 0: Number(value) }));
     };
 
     const handlePrecedenceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +40,7 @@ export function RequesterPage() {
             ...prev,
             precedenceCounters: {
                 ...prev.precedenceCounters,
-                [name]: value === "" ? 0 : value || 0
-            }
+                [name]: value === "" ? 0 : Number(value)             }
         }));
     };
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +57,8 @@ export function RequesterPage() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        console.log("Sending to backend:", formData);
+
 
         try {
             const response = await saveNineLine(formData);
