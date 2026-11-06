@@ -55,14 +55,4 @@ public class NineLine {
     private RequestStatus requestStatus;
 
 
-    public NineLine(Map<Precedence, Integer> precedenceCounters) {
-        this.precedenceCounters = precedenceCounters;
-    }
-
-    public NineLine (String location, String callSign, Map<Precedence, Integer> precedenceCounters) {
-        this.location = location;
-        this.callSign = callSign;
-        this.precedenceCounters = precedenceCounters;
-    }
-
 }
