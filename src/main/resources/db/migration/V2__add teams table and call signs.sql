@@ -18,4 +18,4 @@ ALTER TABLE nine_line
     ALTER COLUMN security TYPE SMALLINT
         USING security::SMALLINT,
     ALTER COLUMN special_equipment TYPE SMALLINT
-        USING special_equipment::SMALLINT;
+        USING special_equipment::SMALLINT;:W
